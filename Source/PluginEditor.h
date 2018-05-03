@@ -19,7 +19,9 @@
 */
 class Tremolo_beta_0_1AudioProcessorEditor  : public AudioProcessorEditor,
                                                 public Button::Listener,
-                                                public Slider::Listener
+                                                public Slider::Listener,
+                                                public Timer
+//public HighResolutionTimer
 {
 public:
     Tremolo_beta_0_1AudioProcessorEditor (Tremolo_beta_0_1AudioProcessor&);
@@ -32,18 +34,20 @@ public:
     
     void buttonClicked (Button* button) override;
     void sliderValueChanged(Slider* slider) override;
-
+    void timerCallback() override;
+   // void hiResTimerCallback() override;
 private:
 
     //ScopedPointer<HackAudio::Slider> lfoShapeKnob;
     
+    HackAudio::Slider rateKnob;
     HackAudio::Slider phaseKnob;
     HackAudio::Slider crossoverKnob;
     HackAudio::Slider symmetryKnob;
     HackAudio::Slider depthKnob;
-    HackAudio::Slider rateKnob;
     HackAudio::Slider pingPongKnob;
     HackAudio::Slider toneKnob;
+    HackAudio::Slider accentKnob;
     
     juce::Label phaseLabel;
     juce::Label crossoverLabel;
@@ -52,12 +56,12 @@ private:
     juce::Label rateLabel;
     juce::Label toneLabel;
     juce::Label pingPongLabel;
-
+    juce::Label accentLabel;
 //    HackAudio::Label phaseLabel;
 //    HackAudio::Label crossoverLabel;
 //    HackAudio::Label symmetryLabel;
 //    HackAudio::Label depthLabel;
- //   HackAudio::Label rateLabel;
+//    HackAudio::Label rateLabel;
 //    HackAudio::Label toneLabel;
 //    HackAudio::Label pingPongLabel;
     
@@ -76,6 +80,7 @@ private:
     HackAudio::Button sixteenthButton;
     HackAudio::Button eighthButton;
     HackAudio::Button eighthTripButton;
+    HackAudio::Button eighthDotButton;
     HackAudio::Button quarterButton;
     HackAudio::Button quarterTripButton;
     HackAudio::Button halfButton;
@@ -100,6 +105,7 @@ private:
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> toneAttachment;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> rateSourceAttachment;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> pingPongAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> accentAttachment;
     
     //ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> buttonAttachment;
     //ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> multiplierAttachment;

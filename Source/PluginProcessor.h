@@ -60,6 +60,9 @@ public:
     
     // Wave Type Variable
     // This variable can be used to change between different types of algorithms
+    
+    int accentFlag = 1;
+    
     // 0 - Sine, 1 - Square, 2 - Triangle, 3 - RampUp, 4 - rampdown, 5 - sweep, 6 - lumps, 7 - random
     int waveAlgorithm = 0;
     int rateSourceAlgorithm = 1;
@@ -125,15 +128,14 @@ private:
     float slopeStart = 1;
     float slopeEnd = 1;
     float multiplierNumber =1;
+    double BPM;
     
+    //More EQ
     float recombineSignal = 1;
     float modulatedTreble = 1;
     float modulatedBass = 1;
     
-    //there has to be a better way to generate these LFO values
-    //float lfoLineNeg[10000] = {0};
-    //float lfoLinePos[10000] = {0};
-    
+    //LFO Params
     float currentAngle[2] = {0};
     float lfoCurrentValue[2] = {1};
     float lfoLastValue[2] = {1};
@@ -143,17 +145,32 @@ private:
     float thetaTopSaw = 1;
     float thetaBottomSaw = 1;
     
-    double BPM;
+    
     int64 currentPositionSamples;
+    int currentPositionQuarters;
+    int currentBeatQuarters;
+    int timeSigNumerator;
     float currentPositionRadians;
     float calculatedPhaseOffset;
-    bool firstRunFlag = 1;
+    //bool firstRunFlag = 1;
     
     float pi = 3.141592653589793238;
     float mod = 1;
     
+    //long long xx;
+    //double oneQuarterInSeconds;
+   // long long zz;
+    double currentPositionSeconds;
+    
     int randomFlag = 0;
     int slopeFlag = 1;
+    
+    double notesPerBeat = 1;
+    double notesPerSecond =  1;
+    double  oneBeatInSeconds = 1;
+    double currentPositionInMultiplierNotes = 1;
+   double currentBeatInMultiplierNotes = 1;
+    float accentModifier = 1;
     
     AudioPlayHead* playHead;
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;

@@ -24,8 +24,8 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     rateKnob.setSize(100,100);
     rateKnob.setPipCount(14);
     rateKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
-    rateKnob.setRange(30,380);
-    rateKnob.setDefaultValue(true, 80);
+    //rateKnob.setRange(30,380);
+    //rateKnob.setDefaultValue(true, 80);
     addAndMakeVisible(rateKnob);
     
     rateLabel.setText("Rate", dontSendNotification);
@@ -41,8 +41,8 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     symmetryKnob.setSize(75,75);
     symmetryKnob.setPipCount(9);
     symmetryKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
-    symmetryKnob.setRange(0.3,1.7);
-    symmetryKnob.setDefaultValue(true, 1);
+    //symmetryKnob.setRange(0.3,1.7);
+    //symmetryKnob.setDefaultValue(true, 1);
     addAndMakeVisible(symmetryKnob);
     
     symmetryLabel.setText("Symmetry", dontSendNotification);
@@ -58,13 +58,11 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     phaseKnob.setSize(75,75);
     phaseKnob.setPipCount(9);
     phaseKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
-    phaseKnob.setRange(0.0,2*6.28318530718);
-    phaseKnob.setDefaultValue(true, 0);
+    //phaseKnob.setRange(0.0,2*6.28318530718);
+    //phaseKnob.setDefaultValue(true, 0);
     addAndMakeVisible(phaseKnob);
     
-    //unused parameters for now
-    //phaseKnob.setValue(*processor.overallGainKnob);
-    
+
     phaseLabel.setText("Phase Offset", dontSendNotification);
     phaseLabel.setFont(HackAudio::Fonts::NowRegular);
     phaseLabel.setColour(juce::Label::textColourId, HackAudio::Colours::White);
@@ -74,14 +72,29 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     addAndMakeVisible(phaseLabel);
     
     //Settings for the crossoverKnob
+    accentKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    accentKnob.addListener(this);
+    accentKnob.setSize(75,75);
+    accentKnob.setPipCount(9);
+    accentKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
+    //accentKnob.setRange(30,20000);
+    addAndMakeVisible(accentKnob);
+    
+    //Settings for accent knob
+    accentLabel.setText("Accent", dontSendNotification);
+    accentLabel.setFont(HackAudio::Fonts::NowRegular);
+    accentLabel.setColour(juce::Label::textColourId, HackAudio::Colours::White);
+    accentLabel.setJustificationType(Justification::centred);
+    accentLabel.attachToComponent(&accentKnob, false); // 'false' is to put it on top
+    addAndMakeVisible(accentLabel);
+    
+    //Settings for the crossoverKnob
     crossoverKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
     crossoverKnob.addListener(this);
     crossoverKnob.setSize(75,75);
     crossoverKnob.setPipCount(9);
     crossoverKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
-    crossoverKnob.setRange(30,20000);
-    crossoverKnob.setDefaultValue(true, 2000);
-    crossoverKnob.setEnabled(false);
+    //crossoverKnob.setRange(30,20000);
     addAndMakeVisible(crossoverKnob);
 
 
@@ -100,7 +113,7 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     pingPongKnob.setPipCount(9);
     pingPongKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
     //pingPongKnob.setRange(0,3.14);
-    pingPongKnob.setDefaultValue(true, 1);
+   // pingPongKnob.setDefaultValue(true, 1);
     addAndMakeVisible(pingPongKnob);
     
     pingPongLabel.setText("Ping Pong", dontSendNotification);
@@ -117,8 +130,8 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     depthKnob.setSize(100,100);
     depthKnob.setPipCount(14);
     depthKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 50, 25);
-    depthKnob.setRange(0,100);
-    depthKnob.setDefaultValue(true, 50);
+    //depthKnob.setRange(0,100);
+    //depthKnob.setDefaultValue(true, 50);
     addAndMakeVisible(depthKnob);
     
     depthLabel.setText("Depth", dontSendNotification);
@@ -256,6 +269,16 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     eighthTripButton.setRadioGroupId(2);
     addAndMakeVisible(eighthTripButton);
     
+    // Various settings for the dotted eighth note button
+    eighthDotButton.addListener(this);
+    eighthDotButton.setButtonText("Dot Eighth");
+    eighthDotButton.setConnectedEdges(Button::ConnectedOnLeft | Button::ConnectedOnRight);
+    eighthDotButton.setButtonStyle(HackAudio::Button::ButtonStyle::BarToggle);
+    eighthDotButton.setSize(90,40);
+    eighthDotButton.setRadioGroupId(2);
+    addAndMakeVisible(eighthDotButton);
+
+    
     // Various settings for the quarter note button
     quarterButton.addListener(this);
     quarterButton.setButtonText("Quarter");
@@ -338,6 +361,7 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     flexKnobs.addComponent(rateKnob);
     flexKnobs.addComponent(symmetryKnob);
     flexKnobs.addComponent(phaseKnob);
+    flexKnobs.addComponent(accentKnob);
     //flexKnobs.addComponent(toneKnob);
     flexKnobs.addComponent(crossoverKnob);
     flexKnobs.addComponent(pingPongKnob);
@@ -362,6 +386,7 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     flexNote.addComponent(sixteenthButton);
     flexNote.addComponent(eighthTripButton);
     flexNote.addComponent(eighthButton);
+    flexNote.addComponent(eighthDotButton);
     flexNote.addComponent(quarterTripButton);
     flexNote.addComponent(quarterButton);
     flexNote.addComponent(halfButton);
@@ -388,6 +413,7 @@ Tremolo_beta_0_1AudioProcessorEditor::Tremolo_beta_0_1AudioProcessorEditor (Trem
     toneAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(),"tone", toneKnob);
     //rateSourceAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(),"rateSource", rateSourceKnob);
    pingPongAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(),"pingPong", pingPongKnob);
+    accentAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(),"accent", accentKnob);
     
    
     // Make sure that before the constructor has finished, you've set the
@@ -496,15 +522,16 @@ if (button == &randomButton) {
  //--------------NOTE MULTIPLIER VALUES-------------
 if (button == &sixteenthButton) {
     processor.multiplierAlgorithm = 16;  }
-
-    if (button == &eighthButton) {
-        processor.multiplierAlgorithm = 8;  }
     if (button == &eighthTripButton) {
         processor.multiplierAlgorithm = 12;  } //might want to change this value based on the time signature. e.g. triplet vs. dotted eight
-    if (button == &quarterButton) {
-        processor.multiplierAlgorithm = 4;  }
+    if (button == &eighthButton) {
+        processor.multiplierAlgorithm = 8;  }
+    if (button == &eighthDotButton) {
+        processor.multiplierAlgorithm = 5.333;  }
     if (button == &quarterTripButton) {
         processor.multiplierAlgorithm = 6;  } //might want to change this value based on the time signature. e.g. triplet vs. dotted eight
+    if (button == &quarterButton) {
+        processor.multiplierAlgorithm = 4;  }
     if (button == &halfButton) {
         processor.multiplierAlgorithm = 2;  }
 //.5, 1, 1.5, 2, 3, 4
@@ -531,9 +558,14 @@ if (button == &sixteenthButton) {
 }
 
 void Tremolo_beta_0_1AudioProcessorEditor::sliderValueChanged(Slider* slider){
-//-----LABEL CHANGES---------
+//-----LABEL CHANGES, UPDATES THE KNOB LABELS WHEN USER CHANGES A PARAMETER---------
+    if (!isShowing()) return;
+    
     if (slider == &rateKnob) {
-        rateLabel.setText(String(rateKnob.getValue(),1),dontSendNotification);
+      rateLabel.setText(String(rateKnob.getValue(),1),dontSendNotification);
+    }
+        if (slider == &accentKnob) {
+            accentLabel.setText(String(accentKnob.getValue(),1),dontSendNotification);
     }
     if (slider == &symmetryKnob) {
         symmetryLabel.setText(String(symmetryKnob.getValue(),1),dontSendNotification);
@@ -549,5 +581,22 @@ void Tremolo_beta_0_1AudioProcessorEditor::sliderValueChanged(Slider* slider){
     }
     if (slider == &depthKnob) {
         depthLabel.setText(String(depthKnob.getValue(),1),dontSendNotification);
+       
     }
+    //Starts a timer, after it expires, resets the labels to default values
+     startTimer(1200);
 }
+
+void Tremolo_beta_0_1AudioProcessorEditor::timerCallback()
+{
+        stopTimer();
+    rateLabel.setText("Rate", dontSendNotification);
+    phaseLabel.setText("Phase Offset", dontSendNotification);
+    accentLabel.setText("Accent", dontSendNotification);
+    symmetryLabel.setText("Symmetry", dontSendNotification);
+    depthLabel.setText("Depth", dontSendNotification);
+    pingPongLabel.setText("Ping Pong", dontSendNotification);
+    crossoverLabel.setText("Crossover", dontSendNotification);
+
+}
+
